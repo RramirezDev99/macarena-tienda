@@ -9,14 +9,23 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
     </style>
 </head>
 <body>
     <div id="root"></div>
+
     <script type="text/babel">
 const { useState, useEffect } = React;
+
+// Paleta Macarena
 const PINK_LIGHT = "#FFDDF7";
 const PINK_MED = "#D48EC4";
 const PINK_DARK = "#B4589E";
@@ -24,6 +33,7 @@ const NAVY = "#070336";
 const WHITE = "#FFFFFF";
 const PINK_BG = "#FFF0FA";
 
+// Hook responsive
 function useWindowSize() {
   const [width, setWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -35,23 +45,24 @@ function useWindowSize() {
 }
 
 const macarons = [
-  { id: 1, name: "Chocolate", color: "#8B5E3C", filling: "Ganache de chocolate", price: 25, emoji: "🍫", desc: "Intenso chocolate belga con ganache cremosa que se derrite en tu boca." },
-  { id: 2, name: "Cajeta y Nuez", color: "#E8B87A", filling: "Cajeta artesanal con nuez", price: 28, emoji: "🥜", desc: "Dulce cajeta artesanal con trozos crujientes de nuez de castilla." },
-  { id: 3, name: "Fresa", color: "#FF7EB3", filling: "Crema de fresa natural", price: 25, emoji: "🍓", desc: "Fresa natural con crema suave y un toque de dulzura irresistible." },
-  { id: 4, name: "Chocomenta", color: "#7EDCB5", filling: "Ganache de menta con chocolate", price: 28, emoji: "🌿", desc: "La frescura de la menta con la riqueza del chocolate oscuro." },
-  { id: 5, name: "Oreo", color: "#87CEEB", filling: "Crema de galleta Oreo", price: 28, emoji: "🖤", desc: "Crema de galleta Oreo con trozos crujientes en cada bocado." },
-  { id: 6, name: "Piña y Coco", color: "#FFF176", filling: "Crema de piña colada", price: 28, emoji: "🍍", desc: "Tropical mezcla de piña dulce con coco rallado artesanal." },
-  { id: 7, name: "S'mors", color: "#F0E6D3", filling: "Marshmallow tostado con chocolate", price: 30, emoji: "🔥", desc: "Marshmallow tostado, chocolate y galleta graham en un macaron." },
+  { id: 1, name: "Chocolate", color: "#8B5E3C", filling: "Ganache de chocolate", price: 25, emoji: "\u{1F36B}", desc: "Intenso chocolate belga con ganache cremosa que se derrite en tu boca." },
+  { id: 2, name: "Cajeta y Nuez", color: "#E8B87A", filling: "Cajeta artesanal con nuez", price: 28, emoji: "\u{1F95C}", desc: "Dulce cajeta artesanal con trozos crujientes de nuez de castilla." },
+  { id: 3, name: "Fresa", color: "#FF7EB3", filling: "Crema de fresa natural", price: 25, emoji: "\u{1F353}", desc: "Fresa natural con crema suave y un toque de dulzura irresistible." },
+  { id: 4, name: "Chocomenta", color: "#7EDCB5", filling: "Ganache de menta con chocolate", price: 28, emoji: "\u{1F33F}", desc: "La frescura de la menta con la riqueza del chocolate oscuro." },
+  { id: 5, name: "Oreo", color: "#87CEEB", filling: "Crema de galleta Oreo", price: 28, emoji: "\u{1F5A4}", desc: "Crema de galleta Oreo con trozos crujientes en cada bocado." },
+  { id: 6, name: "Pi\u00f1a y Coco", color: "#FFF176", filling: "Crema de pi\u00f1a colada", price: 28, emoji: "\u{1F34D}", desc: "Tropical mezcla de pi\u00f1a dulce con coco rallado artesanal." },
+  { id: 7, name: "S'mors", color: "#F0E6D3", filling: "Marshmallow tostado con chocolate", price: 30, emoji: "\u{1F525}", desc: "Marshmallow tostado, chocolate y galleta graham en un macaron." },
 ];
+
 const boxes = [
   { qty: 6, label: "Caja de 6", price: 150 },
   { qty: 12, label: "Caja de 12", price: 280 },
   { qty: 24, label: "Caja de 24", price: 530 },
 ];
 
-function MacaronSVG({ color, size = 64 }) {
+function MacaronSVG({ color, size = 64, className = "" }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 80 60">
+    <svg width={size} height={size} viewBox="0 0 80 60" className={className}>
       <ellipse cx="40" cy="16" rx="28" ry="14" fill={color} />
       <ellipse cx="40" cy="16" rx="20" ry="7" fill="white" opacity="0.2" />
       <rect x="14" y="24" width="52" height="10" rx="3" fill={PINK_MED} opacity="0.5" />
@@ -66,7 +77,7 @@ function StarRating({ rating }) {
   return (
     <div style={{ display: "flex", gap: 2 }}>
       {[...Array(5)].map((_, i) => (
-        <span key={i} style={{ color: i < rating ? PINK_DARK : "#ddd", fontSize: 16 }}>★</span>
+        <span key={i} style={{ color: i < rating ? PINK_DARK : "#ddd", fontSize: 16 }}>{"\u2605"}</span>
       ))}
     </div>
   );
@@ -77,45 +88,72 @@ function Navbar({ cartCount, onCartClick }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const w = useWindowSize();
   const isMobile = w < 768;
+
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
+
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
       background: scrolled || menuOpen ? "rgba(255,240,250,0.97)" : "transparent",
       backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
       transition: "all 0.3s ease",
-      borderBottom: scrolled ? "1px solid rgba(212,142,196,0.27)" : "none",
+      borderBottom: scrolled ? `1px solid ${PINK_MED}44` : "none",
     }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "12px 16px" : "14px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <MacaronSVG color={PINK_MED} size={isMobile ? 30 : 36} />
-          <span style={{ fontFamily: "'Pacifico', cursive", fontSize: isMobile ? 22 : 26, color: NAVY }}>Macarena</span>
+          <span style={{ fontFamily: "'Pacifico', cursive", fontSize: isMobile ? 22 : 26, color: NAVY, letterSpacing: 1 }}>Macarena</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 12 : 28 }}>
+          {/* Hamburger menu for mobile */}
           {isMobile ? (
-            <button onClick={() => setMenuOpen(!menuOpen)} style={{ background: "none", border: "none", fontSize: 24, cursor: "pointer", color: NAVY }}>{menuOpen ? "✕" : "☰"}</button>
+            <button onClick={() => setMenuOpen(!menuOpen)} style={{
+              background: "none", border: "none", fontSize: 24, cursor: "pointer", color: NAVY, padding: 4,
+            }}>
+              {menuOpen ? "\u2715" : "\u2630"}
+            </button>
           ) : (
             ["Sabores", "Arma tu caja", "Nosotros"].map(item => (
-              <a key={item} href={"#" + item.toLowerCase().replace(/ /g, "-")} style={{ color: NAVY, textDecoration: "none", fontSize: 14, fontWeight: 500, opacity: 0.8 }}>{item}</a>
+              <a key={item} href={`#${item.toLowerCase().replace(/ /g, "-")}`} style={{
+                color: NAVY, textDecoration: "none", fontSize: 14, letterSpacing: 0.5,
+                fontWeight: 500, opacity: 0.8, cursor: "pointer", transition: "all 0.3s",
+              }}
+                onMouseOver={e => { e.target.style.color = PINK_DARK; e.target.style.opacity = 1; }}
+                onMouseOut={e => { e.target.style.color = NAVY; e.target.style.opacity = 0.8; }}>
+                {item}
+              </a>
             ))
           )}
           <button onClick={onCartClick} style={{
             background: PINK_DARK, border: "none", color: WHITE,
             padding: isMobile ? "6px 14px" : "8px 18px", borderRadius: 24, cursor: "pointer",
             display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600,
+            boxShadow: `0 4px 12px ${PINK_DARK}44`,
           }}>
-            🛒 <span style={{ background: WHITE, color: PINK_DARK, borderRadius: "50%", width: 22, height: 22, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700 }}>{cartCount}</span>
+            {"\u{1F6D2}"} <span style={{ background: WHITE, color: PINK_DARK, borderRadius: "50%", width: 22, height: 22, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700 }}>{cartCount}</span>
           </button>
         </div>
       </div>
+      {/* Mobile menu dropdown */}
       {isMobile && menuOpen && (
-        <div style={{ background: "rgba(255,240,250,0.97)", padding: "12px 16px 20px", display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{
+          background: "rgba(255,240,250,0.97)", padding: "12px 16px 20px",
+          display: "flex", flexDirection: "column", gap: 16,
+          borderTop: `1px solid ${PINK_MED}33`,
+        }}>
           {["Sabores", "Arma tu caja", "Nosotros"].map(item => (
-            <a key={item} href={"#" + item.toLowerCase().replace(/ /g, "-")} onClick={() => setMenuOpen(false)} style={{ color: NAVY, textDecoration: "none", fontSize: 16, fontWeight: 500, padding: "8px 0", borderBottom: "1px solid " + PINK_LIGHT }}>{item}</a>
+            <a key={item} href={`#${item.toLowerCase().replace(/ /g, "-")}`}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                color: NAVY, textDecoration: "none", fontSize: 16, fontWeight: 500,
+                padding: "8px 0", borderBottom: `1px solid ${PINK_LIGHT}`,
+              }}>
+              {item}
+            </a>
           ))}
         </div>
       )}
@@ -131,357 +169,93 @@ function Hero() {
   return (
     <section style={{
       minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      background: "linear-gradient(160deg, " + PINK_LIGHT + " 0%, " + PINK_BG + " 40%, " + WHITE + " 100%)",
+      background: `linear-gradient(160deg, ${PINK_LIGHT} 0%, ${PINK_BG} 40%, ${WHITE} 100%)`,
       position: "relative", overflow: "hidden", padding: isMobile ? "80px 16px 40px" : "0 24px",
     }}>
       {macarons.map((m, i) => (
         <div key={i} style={{
-          position: "absolute", left: (8 + (i * 13) % 85) + "%", top: (10 + (i * 17) % 70) + "%",
+          position: "absolute",
+          left: `${8 + (i * 13) % 85}%`,
+          top: `${10 + (i * 17) % 70}%`,
           opacity: visible ? 0.12 : 0,
-          transform: "rotate(" + (i * 25 - 40) + "deg) scale(" + (0.7 + (i % 3) * 0.3) + ")",
-          transition: "all 1.5s ease " + (i * 0.15) + "s",
-          animation: "float" + (i % 3) + " 6s ease-in-out " + (i * 0.5) + "s infinite",
+          transform: `rotate(${i * 25 - 40}deg) scale(${0.7 + (i % 3) * 0.3})`,
+          transition: `all 1.5s ease ${i * 0.15}s`,
+          animation: `float${i % 3} 6s ease-in-out ${i * 0.5}s infinite`,
         }}>
           <MacaronSVG color={m.color} size={isMobile ? 50 : 90} />
         </div>
       ))}
+
       <div style={{
         textAlign: "center", zIndex: 2, padding: "0 16px",
         opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(30px)",
         transition: "all 1s ease 0.3s",
       }}>
         <MacaronSVG color={PINK_MED} size={isMobile ? 60 : 80} />
-        <h1 style={{ fontFamily: "'Pacifico', cursive", fontSize: isMobile ? "clamp(36px,10vw,56px)" : "clamp(48px,8vw,90px)", color: NAVY, margin: "8px 0 0", lineHeight: 1.1 }}>Macarena</h1>
-        <p style={{ color: PINK_DARK, fontSize: isMobile ? 13 : 16, letterSpacing: isMobile ? 2 : 4, textTransform: "uppercase", marginTop: 8, fontWeight: 500 }}>Macarons Artesanales</p>
-        <p style={{ color: NAVY, opacity: 0.6, fontSize: isMobile ? 15 : 17, maxWidth: 480, margin: "20px auto 0", lineHeight: 1.7 }}>
-          Hechos a mano con ingredientes de la mejor calidad. Cada macarón es una experiencia única de sabor y textura.
+        <h1 style={{
+          fontFamily: "'Pacifico', cursive",
+          fontSize: isMobile ? "clamp(36px, 10vw, 56px)" : "clamp(48px, 8vw, 90px)",
+          color: NAVY, margin: "8px 0 0", lineHeight: 1.1, fontWeight: 400,
+        }}>
+          Macarena
+        </h1>
+        <p style={{ color: PINK_DARK, fontSize: isMobile ? 13 : 16, letterSpacing: isMobile ? 2 : 4, textTransform: "uppercase", marginTop: 8, fontWeight: 500 }}>
+          Macarons Artesanales
+        </p>
+        <p style={{
+          color: NAVY, opacity: 0.6, fontSize: isMobile ? 15 : 17, marginTop: 20, maxWidth: 480,
+          margin: "20px auto 0", lineHeight: 1.7,
+        }}>
+          Hechos a mano con ingredientes de la mejor calidad. Cada macar&oacute;n es una experiencia &uacute;nica de sabor y textura.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 30, flexWrap: "wrap" }}>
-          <a href="#sabores" style={{ background: "linear-gradient(135deg, " + PINK_DARK + ", " + PINK_MED + ")", color: WHITE, padding: isMobile ? "12px 28px" : "14px 36px", borderRadius: 30, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>Ver Sabores</a>
-          <a href="#arma-tu-caja" style={{ background: WHITE, color: PINK_DARK, padding: isMobile ? "12px 28px" : "14px 36px", borderRadius: 30, textDecoration: "none", fontSize: 14, fontWeight: 600, border: "2px solid " + PINK_DARK }}>Arma tu Caja</a>
-        </div>
-        <div style={{ marginTop: 28, display: "flex", justifyContent: "center", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 20 }}>📸</span>
-          <a href="https://instagram.com/macarena_macarrones" target="_blank" rel="noopener" style={{ color: PINK_DARK, textDecoration: "none", fontSize: 15, fontWeight: 500 }}>@macarena_macarrones</a>
-        </div>
-      </div>
-    </section>
-  );
-}function ProductCard({ macaron, onAdd }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{
-      background: WHITE, borderRadius: 20, overflow: "hidden",
-      border: "2px solid " + (hovered ? PINK_MED : PINK_LIGHT),
-      transition: "all 0.4s ease",
-      transform: hovered ? "translateY(-8px)" : "translateY(0)",
-      boxShadow: hovered ? "0 16px 40px rgba(180,88,158,0.13)" : "0 4px 16px rgba(212,142,196,0.08)",
-    }}>
-      <div style={{ height: 180, display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, " + PINK_LIGHT + ", " + macaron.color + "18)", position: "relative" }}>
-        <div style={{ transition: "transform 0.4s ease", transform: hovered ? "scale(1.15) rotate(-5deg)" : "scale(1)" }}>
-          <MacaronSVG color={macaron.color} size={110} />
-        </div>
-        <span style={{ position: "absolute", top: 14, right: 14, fontSize: 26 }}>{macaron.emoji}</span>
-      </div>
-      <div style={{ padding: "18px 20px 22px" }}>
-        <h3 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, margin: 0, fontSize: 22 }}>{macaron.name}</h3>
-        <div style={{ color: PINK_DARK, fontSize: 12, letterSpacing: 1, margin: "4px 0 8px", fontWeight: 500 }}>{macaron.filling}</div>
-        <p style={{ color: NAVY, opacity: 0.5, fontSize: 13, lineHeight: 1.5, margin: "0 0 16px" }}>{macaron.desc}</p>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontFamily: "'Pacifico', cursive", color: PINK_DARK, fontSize: 22 }}>${macaron.price}<span style={{ fontSize: 13, opacity: 0.6 }}> MXN</span></span>
-          <button onClick={(e) => { e.stopPropagation(); onAdd(macaron); }} style={{
-            background: hovered ? "linear-gradient(135deg, " + PINK_DARK + ", " + PINK_MED + ")" : WHITE,
-            color: hovered ? WHITE : PINK_DARK,
-            border: "2px solid " + PINK_DARK, borderRadius: 24, padding: "8px 20px",
-            cursor: "pointer", fontSize: 13, fontWeight: 600, transition: "all 0.3s ease",
-          }}>+ Añadir</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Catalog({ onAdd }) {
-  const w = useWindowSize();
-  const isMobile = w < 768;
-  return (
-    <section id="sabores" style={{ background: WHITE, padding: isMobile ? "60px 16px" : "90px 24px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
-          <span style={{ color: PINK_DARK, fontSize: 13, letterSpacing: 4, textTransform: "uppercase", fontWeight: 600 }}>Nuestros Sabores</span>
-          <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0" }}>Sabores</h2>
-          <div style={{ width: 60, height: 3, background: "linear-gradient(90deg, " + PINK_MED + ", " + PINK_DARK + ")", margin: "16px auto", borderRadius: 2 }} />
-          <p style={{ color: NAVY, opacity: 0.5, fontSize: 15, maxWidth: 500, margin: "0 auto" }}>Cada macaron es elaborado a mano con ingredientes frescos y de la más alta calidad.</p>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : w < 1024 ? "repeat(2, 1fr)" : "repeat(auto-fill, minmax(270px, 1fr))", gap: isMobile ? 20 : 24 }}>
-          {macarons.map(m => <ProductCard key={m.id} macaron={m} onAdd={onAdd} />)}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function BoxBuilder({ onAddBox }) {
-  const [selected, setSelected] = useState({});
-  const [boxSize, setBoxSize] = useState(6);
-  const w = useWindowSize();
-  const isMobile = w < 768;
-  const totalSelected = Object.values(selected).reduce((s, v) => s + v, 0);
-  const box = boxes.find(b => b.qty === boxSize);
-  const addFlavor = (m) => { if (totalSelected >= boxSize) return; setSelected(prev => ({ ...prev, [m.id]: (prev[m.id] || 0) + 1 })); };
-  const removeFlavor = (m) => { setSelected(prev => { const next = { ...prev }; if (next[m.id] > 1) next[m.id]--; else delete next[m.id]; return next; }); };
-  return (
-    <section id="arma-tu-caja" style={{ background: PINK_LIGHT, padding: isMobile ? "60px 16px" : "90px 24px" }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
-          <span style={{ color: PINK_DARK, fontSize: 13, letterSpacing: 4, textTransform: "uppercase", fontWeight: 600 }}>Personaliza</span>
-          <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0" }}>Arma tu Caja</h2>
-          <div style={{ width: 60, height: 3, background: "linear-gradient(90deg, " + PINK_MED + ", " + PINK_DARK + ")", margin: "16px auto", borderRadius: 2 }} />
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 24 : 40 }}>
-          <div>
-            <h3 style={{ color: NAVY, fontSize: 15, fontWeight: 600, marginBottom: 16 }}>1. Elige el tamaño</h3>
-            <div style={{ display: "flex", gap: 10, marginBottom: 28 }}>
-              {boxes.map(b => (
-                <button key={b.qty} onClick={() => { setBoxSize(b.qty); setSelected({}); }} style={{
-                  background: boxSize === b.qty ? "linear-gradient(135deg, " + PINK_DARK + ", " + PINK_MED + ")" : WHITE,
-                  color: boxSize === b.qty ? WHITE : NAVY,
-                  border: "2px solid " + (boxSize === b.qty ? PINK_DARK : "rgba(212,142,196,0.27)"),
-                  borderRadius: 16, padding: isMobile ? "12px 10px" : "14px 22px", cursor: "pointer", flex: 1, fontWeight: 600,
-                }}>
-                  <div style={{ fontSize: isMobile ? 18 : 20 }}>{b.qty}</div>
-                  <div style={{ fontSize: 11, opacity: 0.7, marginTop: 2 }}>${b.price} MXN</div>
-                </button>
-              ))}
-            </div>
-            <h3 style={{ color: NAVY, fontSize: 15, fontWeight: 600, marginBottom: 16 }}>2. Elige tus sabores <span style={{ color: PINK_DARK, fontWeight: 400 }}>({totalSelected}/{boxSize})</span></h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {macarons.map(m => (
-                <div key={m.id} style={{ background: WHITE, borderRadius: 14, padding: "12px 16px", display: "flex", alignItems: "center", gap: isMobile ? 10 : 14, border: "1px solid " + (selected[m.id] ? PINK_MED : "rgba(212,142,196,0.2)") }}>
-                  <div style={{ width: isMobile ? 30 : 36, height: isMobile ? 30 : 36, borderRadius: "50%", background: m.color, flexShrink: 0 }} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ color: NAVY, fontWeight: 600, fontSize: isMobile ? 13 : 14, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name}</div>
-                    <div style={{ color: PINK_DARK, fontSize: 11, opacity: 0.7 }}>{m.filling}</div>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-                    <button onClick={() => removeFlavor(m)} disabled={!selected[m.id]} style={{ width: 28, height: 28, borderRadius: "50%", border: "1px solid " + PINK_MED, background: WHITE, color: PINK_DARK, cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center", opacity: selected[m.id] ? 1 : 0.3 }}>−</button>
-                    <span style={{ color: NAVY, fontWeight: 700, fontSize: 16, minWidth: 20, textAlign: "center" }}>{selected[m.id] || 0}</span>
-                    <button onClick={() => addFlavor(m)} disabled={totalSelected >= boxSize} style={{ width: 28, height: 28, borderRadius: "50%", border: "none", background: totalSelected >= boxSize ? "#ddd" : PINK_DARK, color: WHITE, cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div style={{ background: WHITE, borderRadius: 24, padding: isMobile ? 20 : 32, border: "2px solid rgba(212,142,196,0.2)", display: "flex", flexDirection: "column", alignItems: "center", boxShadow: "0 8px 32px rgba(212,142,196,0.08)", position: isMobile ? "relative" : "sticky", top: isMobile ? "auto" : 100, alignSelf: "start" }}>
-            <div style={{ color: PINK_DARK, fontSize: 12, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>Tu Caja</div>
-            <div style={{ width: "100%", minHeight: isMobile ? 140 : 200, borderRadius: 16, background: "linear-gradient(135deg, " + PINK_LIGHT + ", rgba(212,142,196,0.13))", border: "2px dashed rgba(212,142,196,0.33)", display: "flex", flexWrap: "wrap", gap: 8, padding: isMobile ? 14 : 20, justifyContent: "center", alignItems: "center" }}>
-              {totalSelected === 0 && <span style={{ color: PINK_MED, fontSize: 14, opacity: 0.6 }}>Selecciona tus macarons...</span>}
-              {Object.entries(selected).map(([id, qty]) => { const m = macarons.find(x => x.id === parseInt(id)); return [...Array(qty)].map((_, i) => (<MacaronSVG key={id + "-" + i} color={m.color} size={isMobile ? 40 : 50} />)); })}
-            </div>
-            <div style={{ width: "100%", marginTop: 24 }}>
-              {Object.entries(selected).map(([id, qty]) => { const m = macarons.find(x => x.id === parseInt(id)); return (<div key={id} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid " + PINK_LIGHT }}><span style={{ color: NAVY, fontSize: 14 }}>{m.name} x{qty}</span></div>); })}
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: 20, alignItems: "center" }}>
-              <span style={{ color: NAVY, fontSize: 14 }}>Total</span>
-              <span style={{ fontFamily: "'Pacifico', cursive", color: PINK_DARK, fontSize: isMobile ? 24 : 28 }}>${box.price} <span style={{ fontSize: 14 }}>MXN</span></span>
-            </div>
-            <div style={{ width: "100%", height: 6, borderRadius: 3, background: PINK_LIGHT, marginTop: 16, overflow: "hidden" }}>
-              <div style={{ height: "100%", borderRadius: 3, transition: "width 0.4s ease", width: ((totalSelected / boxSize) * 100) + "%", background: totalSelected === boxSize ? "linear-gradient(90deg, " + PINK_DARK + ", " + PINK_MED + ")" : PINK_MED }} />
-            </div>
-            <div style={{ color: NAVY, opacity: 0.5, fontSize: 12, marginTop: 6 }}>{totalSelected === boxSize ? "¡Caja completa!" : "Faltan " + (boxSize - totalSelected) + " macarons"}</div>
-            <button onClick={() => totalSelected === boxSize && onAddBox({ selected, boxSize, price: box.price })} disabled={totalSelected !== boxSize} style={{ marginTop: 20, width: "100%", background: totalSelected === boxSize ? "linear-gradient(135deg, " + PINK_DARK + ", " + PINK_MED + ")" : "#eee", color: totalSelected === boxSize ? WHITE : "#aaa", border: "none", borderRadius: 30, padding: "15px 0", fontSize: 15, fontWeight: 700, cursor: totalSelected === boxSize ? "pointer" : "not-allowed", transition: "all 0.3s ease" }}>Añadir al Carrito 🛒</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Macarena - Macarons Artesanales</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
-    </style>
-</head>
-<body>
-    <div id="root"></div>
-    <script type="text/babel">
-const { useState, useEffect } = React;
-const PINK_LIGHT = "#FFDDF7";
-const PINK_MED = "#D48EC4";
-const PINK_DARK = "#B4589E";
-const NAVY = "#070336";
-const WHITE = "#FFFFFF";
-const PINK_BG = "#FFF0FA";
-
-function useWindowSize() {
-  const [width, setWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const h = () => setWidth(window.innerWidth);
-    window.addEventListener("resize", h);
-    return () => window.removeEventListener("resize", h);
-  }, []);
-  return width;
-}
-
-const macarons = [
-  { id: 1, name: "Chocolate", color: "#8B5E3C", filling: "Ganache de chocolate", price: 25, emoji: "🍫", desc: "Intenso chocolate belga con ganache cremosa que se derrite en tu boca." },
-  { id: 2, name: "Cajeta y Nuez", color: "#E8B87A", filling: "Cajeta artesanal con nuez", price: 28, emoji: "🥜", desc: "Dulce cajeta artesanal con trozos crujientes de nuez de castilla." },
-  { id: 3, name: "Fresa", color: "#FF7EB3", filling: "Crema de fresa natural", price: 25, emoji: "🍓", desc: "Fresa natural con crema suave y un toque de dulzura irresistible." },
-  { id: 4, name: "Chocomenta", color: "#7EDCB5", filling: "Ganache de menta con chocolate", price: 28, emoji: "🌿", desc: "La frescura de la menta con la riqueza del chocolate oscuro." },
-  { id: 5, name: "Oreo", color: "#87CEEB", filling: "Crema de galleta Oreo", price: 28, emoji: "🖤", desc: "Crema de galleta Oreo con trozos crujientes en cada bocado." },
-  { id: 6, name: "Piña y Coco", color: "#FFF176", filling: "Crema de piña colada", price: 28, emoji: "🍍", desc: "Tropical mezcla de piña dulce con coco rallado artesanal." },
-  { id: 7, name: "S'mors", color: "#F0E6D3", filling: "Marshmallow tostado con chocolate", price: 30, emoji: "🔥", desc: "Marshmallow tostado, chocolate y galleta graham en un macaron." },
-];
-const boxes = [
-  { qty: 6, label: "Caja de 6", price: 150 },
-  { qty: 12, label: "Caja de 12", price: 280 },
-  { qty: 24, label: "Caja de 24", price: 530 },
-];
-
-function MacaronSVG({ color, size = 64 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 80 60">
-      <ellipse cx="40" cy="16" rx="28" ry="14" fill={color} />
-      <ellipse cx="40" cy="16" rx="20" ry="7" fill="white" opacity="0.2" />
-      <rect x="14" y="24" width="52" height="10" rx="3" fill={PINK_MED} opacity="0.5" />
-      <path d="M16 29 Q22 24 28 29 Q34 34 40 29 Q46 24 52 29 Q58 34 64 29" stroke={PINK_DARK} strokeWidth="1.5" fill="none" opacity="0.6" />
-      <ellipse cx="40" cy="42" rx="28" ry="14" fill={color} />
-      <ellipse cx="40" cy="42" rx="20" ry="7" fill="white" opacity="0.1" />
-    </svg>
-  );
-}
-
-function StarRating({ rating }) {
-  return (
-    <div style={{ display: "flex", gap: 2 }}>
-      {[...Array(5)].map((_, i) => (
-        <span key={i} style={{ color: i < rating ? PINK_DARK : "#ddd", fontSize: 16 }}>★</span>
-      ))}
-    </div>
-  );
-}
-
-function Navbar({ cartCount, onCartClick }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const w = useWindowSize();
-  const isMobile = w < 768;
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
-  }, []);
-  return (
-    <nav style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled || menuOpen ? "rgba(255,240,250,0.97)" : "transparent",
-      backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
-      transition: "all 0.3s ease",
-      borderBottom: scrolled ? "1px solid rgba(212,142,196,0.27)" : "none",
-    }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "12px 16px" : "14px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <MacaronSVG color={PINK_MED} size={isMobile ? 30 : 36} />
-          <span style={{ fontFamily: "'Pacifico', cursive", fontSize: isMobile ? 22 : 26, color: NAVY }}>Macarena</span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 12 : 28 }}>
-          {isMobile ? (
-            <button onClick={() => setMenuOpen(!menuOpen)} style={{ background: "none", border: "none", fontSize: 24, cursor: "pointer", color: NAVY }}>{menuOpen ? "✕" : "☰"}</button>
-          ) : (
-            ["Sabores", "Arma tu caja", "Nosotros"].map(item => (
-              <a key={item} href={"#" + item.toLowerCase().replace(/ /g, "-")} style={{ color: NAVY, textDecoration: "none", fontSize: 14, fontWeight: 500, opacity: 0.8 }}>{item}</a>
-            ))
-          )}
-          <button onClick={onCartClick} style={{
-            background: PINK_DARK, border: "none", color: WHITE,
-            padding: isMobile ? "6px 14px" : "8px 18px", borderRadius: 24, cursor: "pointer",
-            display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600,
+          <a href="#sabores" style={{
+            background: `linear-gradient(135deg, ${PINK_DARK}, ${PINK_MED})`, color: WHITE,
+            padding: isMobile ? "12px 28px" : "14px 36px",
+            borderRadius: 30, textDecoration: "none", fontSize: 14, letterSpacing: 1, fontWeight: 600,
+            boxShadow: `0 8px 24px ${PINK_DARK}33`,
           }}>
-            🛒 <span style={{ background: WHITE, color: PINK_DARK, borderRadius: "50%", width: 22, height: 22, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700 }}>{cartCount}</span>
-          </button>
-        </div>
-      </div>
-      {isMobile && menuOpen && (
-        <div style={{ background: "rgba(255,240,250,0.97)", padding: "12px 16px 20px", display: "flex", flexDirection: "column", gap: 16 }}>
-          {["Sabores", "Arma tu caja", "Nosotros"].map(item => (
-            <a key={item} href={"#" + item.toLowerCase().replace(/ /g, "-")} onClick={() => setMenuOpen(false)} style={{ color: NAVY, textDecoration: "none", fontSize: 16, fontWeight: 500, padding: "8px 0", borderBottom: "1px solid " + PINK_LIGHT }}>{item}</a>
-          ))}
-        </div>
-      )}
-    </nav>
-  );
-}
-
-function Hero() {
-  const [visible, setVisible] = useState(false);
-  const w = useWindowSize();
-  const isMobile = w < 768;
-  useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
-  return (
-    <section style={{
-      minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      background: "linear-gradient(160deg, " + PINK_LIGHT + " 0%, " + PINK_BG + " 40%, " + WHITE + " 100%)",
-      position: "relative", overflow: "hidden", padding: isMobile ? "80px 16px 40px" : "0 24px",
-    }}>
-      {macarons.map((m, i) => (
-        <div key={i} style={{
-          position: "absolute", left: (8 + (i * 13) % 85) + "%", top: (10 + (i * 17) % 70) + "%",
-          opacity: visible ? 0.12 : 0,
-          transform: "rotate(" + (i * 25 - 40) + "deg) scale(" + (0.7 + (i % 3) * 0.3) + ")",
-          transition: "all 1.5s ease " + (i * 0.15) + "s",
-          animation: "float" + (i % 3) + " 6s ease-in-out " + (i * 0.5) + "s infinite",
-        }}>
-          <MacaronSVG color={m.color} size={isMobile ? 50 : 90} />
-        </div>
-      ))}
-      <div style={{
-        textAlign: "center", zIndex: 2, padding: "0 16px",
-        opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(30px)",
-        transition: "all 1s ease 0.3s",
-      }}>
-        <MacaronSVG color={PINK_MED} size={isMobile ? 60 : 80} />
-        <h1 style={{ fontFamily: "'Pacifico', cursive", fontSize: isMobile ? "clamp(36px,10vw,56px)" : "clamp(48px,8vw,90px)", color: NAVY, margin: "8px 0 0", lineHeight: 1.1 }}>Macarena</h1>
-        <p style={{ color: PINK_DARK, fontSize: isMobile ? 13 : 16, letterSpacing: isMobile ? 2 : 4, textTransform: "uppercase", marginTop: 8, fontWeight: 500 }}>Macarons Artesanales</p>
-        <p style={{ color: NAVY, opacity: 0.6, fontSize: isMobile ? 15 : 17, maxWidth: 480, margin: "20px auto 0", lineHeight: 1.7 }}>
-          Hechos a mano con ingredientes de la mejor calidad. Cada macarón es una experiencia única de sabor y textura.
-        </p>
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 30, flexWrap: "wrap" }}>
-          <a href="#sabores" style={{ background: "linear-gradient(135deg, " + PINK_DARK + ", " + PINK_MED + ")", color: WHITE, padding: isMobile ? "12px 28px" : "14px 36px", borderRadius: 30, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>Ver Sabores</a>
-          <a href="#arma-tu-caja" style={{ background: WHITE, color: PINK_DARK, padding: isMobile ? "12px 28px" : "14px 36px", borderRadius: 30, textDecoration: "none", fontSize: 14, fontWeight: 600, border: "2px solid " + PINK_DARK }}>Arma tu Caja</a>
+            Ver Sabores
+          </a>
+          <a href="#arma-tu-caja" style={{
+            background: WHITE, color: PINK_DARK,
+            padding: isMobile ? "12px 28px" : "14px 36px",
+            borderRadius: 30, textDecoration: "none", fontSize: 14, letterSpacing: 1, fontWeight: 600,
+            border: `2px solid ${PINK_DARK}`,
+          }}>
+            Arma tu Caja
+          </a>
         </div>
         <div style={{ marginTop: 28, display: "flex", justifyContent: "center", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 20 }}>📸</span>
-          <a href="https://instagram.com/macarena_macarrones" target="_blank" rel="noopener" style={{ color: PINK_DARK, textDecoration: "none", fontSize: 15, fontWeight: 500 }}>@macarena_macarrones</a>
+          <span style={{ fontSize: 20 }}>{"\u{1F4F8}"}</span>
+          <a href="https://instagram.com/macarena_macarrones" target="_blank" rel="noopener" style={{
+            color: PINK_DARK, textDecoration: "none", fontSize: 15, fontWeight: 500,
+          }}>@macarena_macarrones</a>
         </div>
       </div>
     </section>
   );
 }
-```
 
-Dame un momento para la **PARTE 2**...
-
-**PARTE 2 - Pega esto justo después:**
-```
 function ProductCard({ macaron, onAdd }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{
-      background: WHITE, borderRadius: 20, overflow: "hidden",
-      border: "2px solid " + (hovered ? PINK_MED : PINK_LIGHT),
-      transition: "all 0.4s ease",
-      transform: hovered ? "translateY(-8px)" : "translateY(0)",
-      boxShadow: hovered ? "0 16px 40px rgba(180,88,158,0.13)" : "0 4px 16px rgba(212,142,196,0.08)",
-    }}>
-      <div style={{ height: 180, display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, " + PINK_LIGHT + ", " + macaron.color + "18)", position: "relative" }}>
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: WHITE, borderRadius: 20, overflow: "hidden",
+        border: `2px solid ${hovered ? PINK_MED : PINK_LIGHT}`,
+        transition: "all 0.4s ease",
+        transform: hovered ? "translateY(-8px)" : "translateY(0)",
+        boxShadow: hovered ? `0 16px 40px ${PINK_DARK}22` : `0 4px 16px ${PINK_MED}15`,
+        cursor: "pointer",
+      }}>
+      <div style={{
+        height: 180, display: "flex", alignItems: "center", justifyContent: "center",
+        background: `linear-gradient(135deg, ${PINK_LIGHT}, ${macaron.color}18)`,
+        position: "relative",
+      }}>
         <div style={{ transition: "transform 0.4s ease", transform: hovered ? "scale(1.15) rotate(-5deg)" : "scale(1)" }}>
           <MacaronSVG color={macaron.color} size={110} />
         </div>
@@ -489,16 +263,21 @@ function ProductCard({ macaron, onAdd }) {
       </div>
       <div style={{ padding: "18px 20px 22px" }}>
         <h3 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, margin: 0, fontSize: 22 }}>{macaron.name}</h3>
-        <div style={{ color: PINK_DARK, fontSize: 12, letterSpacing: 1, margin: "4px 0 8px", fontWeight: 500 }}>{macaron.filling}</div>
+        <div style={{ color: PINK_DARK, fontSize: 12, letterSpacing: 1, margin: "4px 0 8px", fontWeight: 500 }}>
+          {macaron.filling}
+        </div>
         <p style={{ color: NAVY, opacity: 0.5, fontSize: 13, lineHeight: 1.5, margin: "0 0 16px" }}>{macaron.desc}</p>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <span style={{ fontFamily: "'Pacifico', cursive", color: PINK_DARK, fontSize: 22 }}>${macaron.price}<span style={{ fontSize: 13, opacity: 0.6 }}> MXN</span></span>
           <button onClick={(e) => { e.stopPropagation(); onAdd(macaron); }} style={{
-            background: hovered ? "linear-gradient(135deg, " + PINK_DARK + ", " + PINK_MED + ")" : WHITE,
+            background: hovered ? `linear-gradient(135deg, ${PINK_DARK}, ${PINK_MED})` : WHITE,
             color: hovered ? WHITE : PINK_DARK,
-            border: "2px solid " + PINK_DARK, borderRadius: 24, padding: "8px 20px",
-            cursor: "pointer", fontSize: 13, fontWeight: 600, transition: "all 0.3s ease",
-          }}>+ Añadir</button>
+            border: `2px solid ${PINK_DARK}`, borderRadius: 24, padding: "8px 20px",
+            cursor: "pointer", fontSize: 13, fontWeight: 600,
+            transition: "all 0.3s ease",
+          }}>
+            + A&ntilde;adir
+          </button>
         </div>
       </div>
     </div>
@@ -513,11 +292,19 @@ function Catalog({ onAdd }) {
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
           <span style={{ color: PINK_DARK, fontSize: 13, letterSpacing: 4, textTransform: "uppercase", fontWeight: 600 }}>Nuestros Sabores</span>
-          <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0" }}>Sabores</h2>
-          <div style={{ width: 60, height: 3, background: "linear-gradient(90deg, " + PINK_MED + ", " + PINK_DARK + ")", margin: "16px auto", borderRadius: 2 }} />
-          <p style={{ color: NAVY, opacity: 0.5, fontSize: 15, maxWidth: 500, margin: "0 auto" }}>Cada macaron es elaborado a mano con ingredientes frescos y de la más alta calidad.</p>
+          <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0", fontWeight: 400 }}>
+            Sabores
+          </h2>
+          <div style={{ width: 60, height: 3, background: `linear-gradient(90deg, ${PINK_MED}, ${PINK_DARK})`, margin: "16px auto", borderRadius: 2 }} />
+          <p style={{ color: NAVY, opacity: 0.5, fontSize: 15, maxWidth: 500, margin: "0 auto" }}>
+            Cada macaron es elaborado a mano con ingredientes frescos y de la m&aacute;s alta calidad.
+          </p>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : w < 1024 ? "repeat(2, 1fr)" : "repeat(auto-fill, minmax(270px, 1fr))", gap: isMobile ? 20 : 24 }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : w < 1024 ? "repeat(2, 1fr)" : "repeat(auto-fill, minmax(270px, 1fr))",
+          gap: isMobile ? 20 : 24,
+        }}>
           {macarons.map(m => <ProductCard key={m.id} macaron={m} onAdd={onAdd} />)}
         </div>
       </div>
@@ -532,85 +319,163 @@ function BoxBuilder({ onAddBox }) {
   const isMobile = w < 768;
   const totalSelected = Object.values(selected).reduce((s, v) => s + v, 0);
   const box = boxes.find(b => b.qty === boxSize);
-  const addFlavor = (m) => { if (totalSelected >= boxSize) return; setSelected(prev => ({ ...prev, [m.id]: (prev[m.id] || 0) + 1 })); };
-  const removeFlavor = (m) => { setSelected(prev => { const next = { ...prev }; if (next[m.id] > 1) next[m.id]--; else delete next[m.id]; return next; }); };
+
+  const addFlavor = (m) => {
+    if (totalSelected >= boxSize) return;
+    setSelected(prev => ({ ...prev, [m.id]: (prev[m.id] || 0) + 1 }));
+  };
+  const removeFlavor = (m) => {
+    setSelected(prev => {
+      const next = { ...prev };
+      if (next[m.id] > 1) next[m.id]--;
+      else delete next[m.id];
+      return next;
+    });
+  };
+
   return (
     <section id="arma-tu-caja" style={{ background: PINK_LIGHT, padding: isMobile ? "60px 16px" : "90px 24px" }}>
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
           <span style={{ color: PINK_DARK, fontSize: 13, letterSpacing: 4, textTransform: "uppercase", fontWeight: 600 }}>Personaliza</span>
-          <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0" }}>Arma tu Caja</h2>
-          <div style={{ width: 60, height: 3, background: "linear-gradient(90deg, " + PINK_MED + ", " + PINK_DARK + ")", margin: "16px auto", borderRadius: 2 }} />
+          <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0", fontWeight: 400 }}>
+            Arma tu Caja
+          </h2>
+          <div style={{ width: 60, height: 3, background: `linear-gradient(90deg, ${PINK_MED}, ${PINK_DARK})`, margin: "16px auto", borderRadius: 2 }} />
         </div>
+
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 24 : 40 }}>
           <div>
-            <h3 style={{ color: NAVY, fontSize: 15, fontWeight: 600, marginBottom: 16 }}>1. Elige el tamaño</h3>
+            <h3 style={{ color: NAVY, fontSize: 15, fontWeight: 600, marginBottom: 16 }}>1. Elige el tama&ntilde;o</h3>
             <div style={{ display: "flex", gap: 10, marginBottom: 28 }}>
               {boxes.map(b => (
                 <button key={b.qty} onClick={() => { setBoxSize(b.qty); setSelected({}); }} style={{
-                  background: boxSize === b.qty ? "linear-gradient(135deg, " + PINK_DARK + ", " + PINK_MED + ")" : WHITE,
+                  background: boxSize === b.qty ? `linear-gradient(135deg, ${PINK_DARK}, ${PINK_MED})` : WHITE,
                   color: boxSize === b.qty ? WHITE : NAVY,
-                  border: "2px solid " + (boxSize === b.qty ? PINK_DARK : "rgba(212,142,196,0.27)"),
-                  borderRadius: 16, padding: isMobile ? "12px 10px" : "14px 22px", cursor: "pointer", flex: 1, fontWeight: 600,
+                  border: `2px solid ${boxSize === b.qty ? PINK_DARK : PINK_MED}44`,
+                  borderRadius: 16, padding: isMobile ? "12px 10px" : "14px 22px", cursor: "pointer", flex: 1,
+                  transition: "all 0.3s ease", fontWeight: 600,
                 }}>
                   <div style={{ fontSize: isMobile ? 18 : 20 }}>{b.qty}</div>
                   <div style={{ fontSize: 11, opacity: 0.7, marginTop: 2 }}>${b.price} MXN</div>
                 </button>
               ))}
             </div>
+
             <h3 style={{ color: NAVY, fontSize: 15, fontWeight: 600, marginBottom: 16 }}>2. Elige tus sabores <span style={{ color: PINK_DARK, fontWeight: 400 }}>({totalSelected}/{boxSize})</span></h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {macarons.map(m => (
-                <div key={m.id} style={{ background: WHITE, borderRadius: 14, padding: "12px 16px", display: "flex", alignItems: "center", gap: isMobile ? 10 : 14, border: "1px solid " + (selected[m.id] ? PINK_MED : "rgba(212,142,196,0.2)") }}>
+                <div key={m.id} style={{
+                  background: WHITE, borderRadius: 14, padding: "12px 16px",
+                  display: "flex", alignItems: "center", gap: isMobile ? 10 : 14,
+                  border: `1px solid ${selected[m.id] ? PINK_MED : PINK_MED + "33"}`,
+                  transition: "all 0.3s",
+                }}>
                   <div style={{ width: isMobile ? 30 : 36, height: isMobile ? 30 : 36, borderRadius: "50%", background: m.color, flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ color: NAVY, fontWeight: 600, fontSize: isMobile ? 13 : 14, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name}</div>
-                    <div style={{ color: PINK_DARK, fontSize: 11, opacity: 0.7 }}>{m.filling}</div>
+                    <div style={{ color: NAVY, fontWeight: 600, fontSize: isMobile ? 13 : 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.name}</div>
+                    <div style={{ color: PINK_DARK, fontSize: 11, opacity: 0.7, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.filling}</div>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-                    <button onClick={() => removeFlavor(m)} disabled={!selected[m.id]} style={{ width: 28, height: 28, borderRadius: "50%", border: "1px solid " + PINK_MED, background: WHITE, color: PINK_DARK, cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center", opacity: selected[m.id] ? 1 : 0.3 }}>−</button>
+                    <button onClick={() => removeFlavor(m)} disabled={!selected[m.id]} style={{
+                      width: 28, height: 28, borderRadius: "50%", border: `1px solid ${PINK_MED}`,
+                      background: WHITE, color: PINK_DARK, cursor: "pointer", fontSize: 16,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      opacity: selected[m.id] ? 1 : 0.3,
+                    }}>{"\u2212"}</button>
                     <span style={{ color: NAVY, fontWeight: 700, fontSize: 16, minWidth: 20, textAlign: "center" }}>{selected[m.id] || 0}</span>
-                    <button onClick={() => addFlavor(m)} disabled={totalSelected >= boxSize} style={{ width: 28, height: 28, borderRadius: "50%", border: "none", background: totalSelected >= boxSize ? "#ddd" : PINK_DARK, color: WHITE, cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+                    <button onClick={() => addFlavor(m)} disabled={totalSelected >= boxSize} style={{
+                      width: 28, height: 28, borderRadius: "50%", border: "none",
+                      background: totalSelected >= boxSize ? "#ddd" : PINK_DARK, color: WHITE, cursor: "pointer", fontSize: 16,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}>+</button>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ background: WHITE, borderRadius: 24, padding: isMobile ? 20 : 32, border: "2px solid rgba(212,142,196,0.2)", display: "flex", flexDirection: "column", alignItems: "center", boxShadow: "0 8px 32px rgba(212,142,196,0.08)", position: isMobile ? "relative" : "sticky", top: isMobile ? "auto" : 100, alignSelf: "start" }}>
+
+          {/* Right: preview */}
+          <div style={{
+            background: WHITE, borderRadius: 24, padding: isMobile ? 20 : 32,
+            border: `2px solid ${PINK_MED}33`,
+            display: "flex", flexDirection: "column", alignItems: "center",
+            boxShadow: `0 8px 32px ${PINK_MED}15`,
+            position: isMobile ? "relative" : "sticky", top: isMobile ? "auto" : 100, alignSelf: "start",
+          }}>
             <div style={{ color: PINK_DARK, fontSize: 12, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>Tu Caja</div>
-            <div style={{ width: "100%", minHeight: isMobile ? 140 : 200, borderRadius: 16, background: "linear-gradient(135deg, " + PINK_LIGHT + ", rgba(212,142,196,0.13))", border: "2px dashed rgba(212,142,196,0.33)", display: "flex", flexWrap: "wrap", gap: 8, padding: isMobile ? 14 : 20, justifyContent: "center", alignItems: "center" }}>
+
+            <div style={{
+              width: "100%", minHeight: isMobile ? 140 : 200, borderRadius: 16,
+              background: `linear-gradient(135deg, ${PINK_LIGHT}, ${PINK_MED}22)`,
+              border: `2px dashed ${PINK_MED}55`,
+              display: "flex", flexWrap: "wrap", gap: 8, padding: isMobile ? 14 : 20, justifyContent: "center", alignItems: "center",
+            }}>
               {totalSelected === 0 && <span style={{ color: PINK_MED, fontSize: 14, opacity: 0.6 }}>Selecciona tus macarons...</span>}
-              {Object.entries(selected).map(([id, qty]) => { const m = macarons.find(x => x.id === parseInt(id)); return [...Array(qty)].map((_, i) => (<MacaronSVG key={id + "-" + i} color={m.color} size={isMobile ? 40 : 50} />)); })}
+              {Object.entries(selected).map(([id, qty]) => {
+                const m = macarons.find(x => x.id === parseInt(id));
+                return [...Array(qty)].map((_, i) => (
+                  <MacaronSVG key={`${id}-${i}`} color={m.color} size={isMobile ? 40 : 50} />
+                ));
+              })}
             </div>
+
             <div style={{ width: "100%", marginTop: 24 }}>
-              {Object.entries(selected).map(([id, qty]) => { const m = macarons.find(x => x.id === parseInt(id)); return (<div key={id} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid " + PINK_LIGHT }}><span style={{ color: NAVY, fontSize: 14 }}>{m.name} x{qty}</span></div>); })}
+              {Object.entries(selected).map(([id, qty]) => {
+                const m = macarons.find(x => x.id === parseInt(id));
+                return (
+                  <div key={id} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: `1px solid ${PINK_LIGHT}` }}>
+                    <span style={{ color: NAVY, fontSize: 14 }}>{m.name} x{qty}</span>
+                  </div>
+                );
+              })}
             </div>
+
             <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: 20, alignItems: "center" }}>
               <span style={{ color: NAVY, fontSize: 14 }}>Total</span>
               <span style={{ fontFamily: "'Pacifico', cursive", color: PINK_DARK, fontSize: isMobile ? 24 : 28 }}>${box.price} <span style={{ fontSize: 14 }}>MXN</span></span>
             </div>
+
             <div style={{ width: "100%", height: 6, borderRadius: 3, background: PINK_LIGHT, marginTop: 16, overflow: "hidden" }}>
-              <div style={{ height: "100%", borderRadius: 3, transition: "width 0.4s ease", width: ((totalSelected / boxSize) * 100) + "%", background: totalSelected === boxSize ? "linear-gradient(90deg, " + PINK_DARK + ", " + PINK_MED + ")" : PINK_MED }} />
+              <div style={{
+                height: "100%", borderRadius: 3, transition: "width 0.4s ease",
+                width: `${(totalSelected / boxSize) * 100}%`,
+                background: totalSelected === boxSize ? `linear-gradient(90deg, ${PINK_DARK}, ${PINK_MED})` : PINK_MED,
+              }} />
             </div>
-            <div style={{ color: NAVY, opacity: 0.5, fontSize: 12, marginTop: 6 }}>{totalSelected === boxSize ? "¡Caja completa!" : "Faltan " + (boxSize - totalSelected) + " macarons"}</div>
-            <button onClick={() => totalSelected === boxSize && onAddBox({ selected, boxSize, price: box.price })} disabled={totalSelected !== boxSize} style={{ marginTop: 20, width: "100%", background: totalSelected === boxSize ? "linear-gradient(135deg, " + PINK_DARK + ", " + PINK_MED + ")" : "#eee", color: totalSelected === boxSize ? WHITE : "#aaa", border: "none", borderRadius: 30, padding: "15px 0", fontSize: 15, fontWeight: 700, cursor: totalSelected === boxSize ? "pointer" : "not-allowed", transition: "all 0.3s ease" }}>Añadir al Carrito 🛒</button>
+            <div style={{ color: NAVY, opacity: 0.5, fontSize: 12, marginTop: 6 }}>
+              {totalSelected === boxSize ? "\u00a1Caja completa!" : `Faltan ${boxSize - totalSelected} macarons`}
+            </div>
+
+            <button
+              onClick={() => totalSelected === boxSize && onAddBox({ selected, boxSize, price: box.price })}
+              disabled={totalSelected !== boxSize}
+              style={{
+                marginTop: 20, width: "100%",
+                background: totalSelected === boxSize ? `linear-gradient(135deg, ${PINK_DARK}, ${PINK_MED})` : "#eee",
+                color: totalSelected === boxSize ? WHITE : "#aaa",
+                border: "none", borderRadius: 30, padding: "15px 0",
+                fontSize: 15, fontWeight: 700, letterSpacing: 1,
+                cursor: totalSelected === boxSize ? "pointer" : "not-allowed",
+                transition: "all 0.3s ease",
+                boxShadow: totalSelected === boxSize ? `0 8px 24px ${PINK_DARK}33` : "none",
+              }}>
+              A&ntilde;adir al Carrito {"\u{1F6D2}"}
+            </button>
           </div>
         </div>
       </div>
     </section>
   );
 }
-```
 
-**PARTE 3 - Pega esto al final:**
-```
 function Testimonials() {
   const w = useWindowSize();
   const isMobile = w < 768;
   const reviews = [
-    { name: "Sofía M.", text: "¡Los macarons de Chocomenta son increíbles! Pedí una caja de 24 y desaparecieron en un día.", rating: 5 },
-    { name: "Andrea R.", text: "Pedí para mi cumpleaños y todos quedaron encantados. Los de Cajeta y Nuez son los mejores.", rating: 5 },
-    { name: "Luis G.", text: "Excelente presentación y sabor. Los S'mors son adictivos. Definitivamente repetiré.", rating: 5 },
+    { name: "Sof\u00eda M.", text: "\u00a1Los macarons de Chocomenta son incre\u00edbles! Ped\u00ed una caja de 24 y desaparecieron en un d\u00eda.", rating: 5 },
+    { name: "Andrea R.", text: "Ped\u00ed para mi cumplea\u00f1os y todos quedaron encantados. Los de Cajeta y Nuez son los mejores.", rating: 5 },
+    { name: "Luis G.", text: "Excelente presentaci\u00f3n y sabor. Los S'mors son adictivos. Definitivamente repetir\u00e9.", rating: 5 },
     { name: "Diana P.", text: "Calidad premium a muy buen precio. Los de Fresa son mis favoritos.", rating: 5 },
   ];
   return (
@@ -618,15 +483,22 @@ function Testimonials() {
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
           <span style={{ color: PINK_DARK, fontSize: 13, letterSpacing: 4, textTransform: "uppercase", fontWeight: 600 }}>Testimonios</span>
-          <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0" }}>Nuestros Clientes</h2>
-          <div style={{ width: 60, height: 3, background: "linear-gradient(90deg, " + PINK_MED + ", " + PINK_DARK + ")", margin: "16px auto", borderRadius: 2 }} />
+          <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0", fontWeight: 400 }}>
+            Nuestros Clientes
+          </h2>
+          <div style={{ width: 60, height: 3, background: `linear-gradient(90deg, ${PINK_MED}, ${PINK_DARK})`, margin: "16px auto", borderRadius: 2 }} />
         </div>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : w < 1024 ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: 20 }}>
           {reviews.map((t, i) => (
-            <div key={i} style={{ background: PINK_LIGHT, borderRadius: 20, padding: isMobile ? 20 : 24, border: "1px solid rgba(212,142,196,0.2)" }}>
+            <div key={i} style={{
+              background: PINK_LIGHT, borderRadius: 20, padding: isMobile ? 20 : 24,
+              border: `1px solid ${PINK_MED}33`,
+            }}>
               <StarRating rating={t.rating} />
-              <p style={{ color: NAVY, opacity: 0.7, fontSize: 14, lineHeight: 1.7, margin: "14px 0", fontStyle: "italic" }}>"{t.text}"</p>
-              <div style={{ color: PINK_DARK, fontSize: 14, fontWeight: 700 }}>— {t.name}</div>
+              <p style={{ color: NAVY, opacity: 0.7, fontSize: 14, lineHeight: 1.7, margin: "14px 0", fontStyle: "italic" }}>
+                "{t.text}"
+              </p>
+              <div style={{ color: PINK_DARK, fontSize: 14, fontWeight: 700 }}>{"\u2014"} {t.name}</div>
             </div>
           ))}
         </div>
@@ -641,17 +513,33 @@ function PaymentInfo() {
   return (
     <section style={{ background: PINK_LIGHT, padding: isMobile ? "50px 16px" : "70px 24px" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
-        <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 26 : 32, margin: "0 0 8px" }}>Métodos de Pago</h2>
-        <div style={{ width: 60, height: 3, background: "linear-gradient(90deg, " + PINK_MED + ", " + PINK_DARK + ")", margin: "12px auto 36px", borderRadius: 2 }} />
+        <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 26 : 32, margin: "0 0 8px", fontWeight: 400 }}>
+          M&eacute;todos de Pago
+        </h2>
+        <div style={{ width: 60, height: 3, background: `linear-gradient(90deg, ${PINK_MED}, ${PINK_DARK})`, margin: "12px auto 36px", borderRadius: 2 }} />
         <div style={{ display: "flex", justifyContent: "center", gap: isMobile ? 16 : 40, flexWrap: "wrap" }}>
-          {[{ icon: "💵", label: "Efectivo" }, { icon: "💳", label: "Tarjeta" }, { icon: "📱", label: "Transferencia" }].map(p => (
-            <div key={p.label} style={{ background: WHITE, borderRadius: 20, padding: isMobile ? "20px 24px" : "28px 36px", boxShadow: "0 4px 16px rgba(212,142,196,0.08)", border: "1px solid rgba(212,142,196,0.2)", minWidth: isMobile ? 100 : 140, textAlign: "center", flex: isMobile ? "1 1 0" : "none" }}>
+          {[
+            { icon: "\u{1F4B5}", label: "Efectivo" },
+            { icon: "\u{1F4B3}", label: "Tarjeta" },
+            { icon: "\u{1F4F1}", label: "Transferencia" },
+          ].map(p => (
+            <div key={p.label} style={{
+              background: WHITE, borderRadius: 20, padding: isMobile ? "20px 24px" : "28px 36px",
+              boxShadow: `0 4px 16px ${PINK_MED}15`,
+              border: `1px solid ${PINK_MED}33`,
+              minWidth: isMobile ? 100 : 140, textAlign: "center", flex: isMobile ? "1 1 0" : "none",
+            }}>
               <div style={{ fontSize: isMobile ? 32 : 40, marginBottom: 10 }}>{p.icon}</div>
               <div style={{ color: NAVY, fontWeight: 600, fontSize: isMobile ? 14 : 16 }}>{p.label}</div>
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 30, background: WHITE, borderRadius: 16, padding: isMobile ? "14px 16px" : "16px 28px", display: "inline-block", border: "1px solid rgba(212,142,196,0.27)", maxWidth: "100%", wordBreak: "break-all" }}>
+        <div style={{
+          marginTop: 30, background: WHITE, borderRadius: 16, padding: isMobile ? "14px 16px" : "16px 28px",
+          display: "inline-block",
+          border: `1px solid ${PINK_MED}44`,
+          maxWidth: "100%", wordBreak: "break-all",
+        }}>
           <span style={{ color: NAVY, opacity: 0.5, fontSize: isMobile ? 11 : 13 }}>CLABE: </span>
           <span style={{ color: NAVY, fontWeight: 700, fontSize: isMobile ? 13 : 15, letterSpacing: 1 }}>7229 6904 0858 6897 06</span>
         </div>
@@ -663,55 +551,134 @@ function PaymentInfo() {
 function CartDrawer({ cart, customBoxes, isOpen, onClose, onRemove, onRemoveBox }) {
   const w = useWindowSize();
   const isMobile = w < 768;
+  const drawerWidth = isMobile ? "100%" : 400;
   const itemTotal = cart.reduce((s, item) => s + item.price * item.qty, 0);
   const boxTotal = customBoxes.reduce((s, b) => s + b.price, 0);
   const total = itemTotal + boxTotal;
   const hasItems = cart.length > 0 || customBoxes.length > 0;
+
   const buildWhatsAppURL = () => {
     const WA_NUMBER = "5214791530521";
-    let lines = ["*🧁 Nuevo Pedido - Macarena Macarrons*", "━━━━━━━━━━━━━━━━━━", ""];
-    if (cart.length > 0) { lines.push("*Macarons individuales:*"); cart.forEach(item => { lines.push("  • " + item.name + " x" + item.qty + " — $" + (item.price * item.qty) + " MXN"); }); lines.push(""); }
-    if (customBoxes.length > 0) { customBoxes.forEach((box) => { lines.push("*📦 Caja personalizada de " + box.boxSize + ":*"); Object.entries(box.selected).forEach(([id, qty]) => { const m = macarons.find(x => x.id === parseInt(id)); lines.push("  • " + m.name + " x" + qty); }); lines.push("  Precio: $" + box.price + " MXN"); lines.push(""); }); }
-    lines.push("━━━━━━━━━━━━━━━━━━"); lines.push("*💰 Total: $" + total + " MXN*"); lines.push(""); lines.push("¡Hola! Me gustaría hacer este pedido. ¿Podrían confirmarme disponibilidad y tiempo de entrega? 😊");
-    return "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
+    let lines = [];
+    lines.push("*\u{1F9C1} Nuevo Pedido - Macarena Macarrons*");
+    lines.push("\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501");
+    lines.push("");
+    if (cart.length > 0) {
+      lines.push("*Macarons individuales:*");
+      cart.forEach(item => {
+        lines.push(`  \u2022 ${item.name} x${item.qty} \u2014 $${item.price * item.qty} MXN`);
+      });
+      lines.push("");
+    }
+    if (customBoxes.length > 0) {
+      customBoxes.forEach((box, i) => {
+        lines.push(`*\u{1F4E6} Caja personalizada de ${box.boxSize}:*`);
+        Object.entries(box.selected).forEach(([id, qty]) => {
+          const m = macarons.find(x => x.id === parseInt(id));
+          lines.push(`  \u2022 ${m.name} x${qty}`);
+        });
+        lines.push(`  Precio: $${box.price} MXN`);
+        lines.push("");
+      });
+    }
+    lines.push("\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501");
+    lines.push(`*\u{1F4B0} Total: $${total} MXN*`);
+    lines.push("");
+    lines.push("\u00a1Hola! Me gustar\u00eda hacer este pedido. \u00bfPodr\u00edan confirmarme disponibilidad y tiempo de entrega? \u{1F60A}");
+    const message = encodeURIComponent(lines.join("\n"));
+    return `https://wa.me/${WA_NUMBER}?text=${message}`;
   };
+
   return (
     <>
       {isOpen && <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(7,3,54,0.4)", zIndex: 200, backdropFilter: "blur(4px)" }} />}
-      <div style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: isMobile ? "100%" : 400, background: WHITE, zIndex: 201, transform: isOpen ? "translateX(0)" : "translateX(100%)", transition: "transform 0.4s ease", borderLeft: isMobile ? "none" : "2px solid " + PINK_LIGHT, display: "flex", flexDirection: "column" }}>
-        <div style={{ padding: isMobile ? 16 : 24, borderBottom: "2px solid " + PINK_LIGHT, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h3 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, margin: 0, fontSize: isMobile ? 20 : 24 }}>Tu Carrito 🛒</h3>
-          <button onClick={onClose} style={{ background: PINK_LIGHT, border: "none", color: NAVY, fontSize: 18, cursor: "pointer", width: 36, height: 36, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+      <div style={{
+        position: "fixed", top: 0, right: 0, bottom: 0, width: drawerWidth,
+        background: WHITE, zIndex: 201,
+        transform: isOpen ? "translateX(0)" : "translateX(100%)",
+        transition: "transform 0.4s ease",
+        borderLeft: isMobile ? "none" : `2px solid ${PINK_LIGHT}`,
+        display: "flex", flexDirection: "column",
+      }}>
+        <div style={{ padding: isMobile ? "16px" : 24, borderBottom: `2px solid ${PINK_LIGHT}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h3 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, margin: 0, fontSize: isMobile ? 20 : 24 }}>Tu Carrito {"\u{1F6D2}"}</h3>
+          <button onClick={onClose} style={{ background: PINK_LIGHT, border: "none", color: NAVY, fontSize: 18, cursor: "pointer", width: 36, height: 36, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{"\u2715"}</button>
         </div>
         <div style={{ flex: 1, overflow: "auto", padding: isMobile ? 16 : 20 }}>
-          {!hasItems && (<div style={{ textAlign: "center", color: PINK_MED, marginTop: 60 }}><div style={{ fontSize: 56, marginBottom: 16 }}>🛒</div><div style={{ fontSize: 16 }}>Tu carrito está vacío</div><div style={{ fontSize: 13, opacity: 0.6, marginTop: 4 }}>¡Agrega tus macarons favoritos!</div></div>)}
+          {!hasItems && (
+            <div style={{ textAlign: "center", color: PINK_MED, marginTop: 60 }}>
+              <div style={{ fontSize: 56, marginBottom: 16 }}>{"\u{1F6D2}"}</div>
+              <div style={{ fontSize: 16 }}>Tu carrito est&aacute; vac&iacute;o</div>
+              <div style={{ fontSize: 13, opacity: 0.6, marginTop: 4 }}>{"\u00a1"}Agrega tus macarons favoritos!</div>
+            </div>
+          )}
           {cart.map((item, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 0", borderBottom: "1px solid " + PINK_LIGHT }}>
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 0", borderBottom: `1px solid ${PINK_LIGHT}` }}>
               <div style={{ width: 40, height: 40, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
-              <div style={{ flex: 1, minWidth: 0 }}><div style={{ color: NAVY, fontSize: 15, fontWeight: 600 }}>{item.name}</div><div style={{ color: PINK_DARK, fontSize: 12 }}>x{item.qty}</div></div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ color: NAVY, fontSize: 15, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</div>
+                <div style={{ color: PINK_DARK, fontSize: 12 }}>x{item.qty}</div>
+              </div>
               <div style={{ color: PINK_DARK, fontWeight: 700, fontSize: 15, flexShrink: 0 }}>${item.price * item.qty}</div>
-              <button onClick={() => onRemove(i)} style={{ background: PINK_LIGHT, border: "none", color: PINK_DARK, cursor: "pointer", fontSize: 14, width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>✕</button>
+              <button onClick={() => onRemove(i)} style={{ background: PINK_LIGHT, border: "none", color: PINK_DARK, cursor: "pointer", fontSize: 14, width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{"\u2715"}</button>
             </div>
           ))}
           {customBoxes.map((box, i) => (
-            <div key={"b" + i} style={{ padding: "14px 0", borderBottom: "1px solid " + PINK_LIGHT }}>
+            <div key={`b${i}`} style={{ padding: "14px 0", borderBottom: `1px solid ${PINK_LIGHT}` }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ flex: 1, minWidth: 0 }}><div style={{ color: NAVY, fontSize: 15, fontWeight: 600 }}>📦 Caja de {box.boxSize}</div><div style={{ color: PINK_DARK, fontSize: 12, marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{Object.entries(box.selected).map(([id, qty]) => { const m = macarons.find(x => x.id === parseInt(id)); return m.name + "(" + qty + ")"; }).join(", ")}</div></div>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}><span style={{ color: PINK_DARK, fontWeight: 700 }}>${box.price}</span><button onClick={() => onRemoveBox(i)} style={{ background: PINK_LIGHT, border: "none", color: PINK_DARK, cursor: "pointer", fontSize: 14, width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button></div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ color: NAVY, fontSize: 15, fontWeight: 600 }}>{"\u{1F4E6}"} Caja de {box.boxSize}</div>
+                  <div style={{ color: PINK_DARK, fontSize: 12, marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {Object.entries(box.selected).map(([id, qty]) => {
+                      const m = macarons.find(x => x.id === parseInt(id));
+                      return `${m.name}(${qty})`;
+                    }).join(", ")}
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+                  <span style={{ color: PINK_DARK, fontWeight: 700 }}>${box.price}</span>
+                  <button onClick={() => onRemoveBox(i)} style={{ background: PINK_LIGHT, border: "none", color: PINK_DARK, cursor: "pointer", fontSize: 14, width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{"\u2715"}</button>
+                </div>
               </div>
             </div>
           ))}
         </div>
-        <div style={{ padding: isMobile ? 16 : 24, borderTop: "2px solid " + PINK_LIGHT }}>
+        <div style={{ padding: isMobile ? 16 : 24, borderTop: `2px solid ${PINK_LIGHT}` }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20, alignItems: "center" }}>
             <span style={{ color: NAVY, fontSize: 16 }}>Total</span>
             <span style={{ fontFamily: "'Pacifico', cursive", color: PINK_DARK, fontSize: isMobile ? 24 : 28 }}>${total} <span style={{ fontSize: 14 }}>MXN</span></span>
           </div>
-          <button onClick={() => { if (!hasItems) return; const url = buildWhatsAppURL(); window.open(url, "_blank"); }} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, width: "100%", background: hasItems ? "#25D366" : "#ccc", color: WHITE, border: "none", borderRadius: 30, padding: "16px 0", fontSize: 15, fontWeight: 700, cursor: hasItems ? "pointer" : "not-allowed", boxShadow: hasItems ? "0 8px 24px rgba(37,211,102,0.3)" : "none", transition: "all 0.3s ease" }}>
+          <button
+            onClick={() => {
+              if (!hasItems) return;
+              const url = buildWhatsAppURL();
+              const w = window.open(url, "_blank");
+              if (!w) {
+                const link = document.createElement("a");
+                link.href = url;
+                link.target = "_blank";
+                link.rel = "noopener";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }
+            }}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+              width: "100%",
+              background: hasItems ? "#25D366" : "#ccc",
+              color: WHITE, border: "none", borderRadius: 30, padding: "16px 0",
+              fontSize: 15, fontWeight: 700, letterSpacing: 1,
+              cursor: hasItems ? "pointer" : "not-allowed",
+              boxShadow: hasItems ? "0 8px 24px rgba(37,211,102,0.3)" : "none",
+              transition: "all 0.3s ease",
+            }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             Pedir por WhatsApp
           </button>
-          <p style={{ textAlign: "center", color: NAVY, opacity: 0.4, fontSize: 11, marginTop: 10 }}>Se abrirá WhatsApp con tu pedido listo para enviar</p>
+          <p style={{ textAlign: "center", color: NAVY, opacity: 0.4, fontSize: 11, marginTop: 10 }}>
+            Se abrir&aacute; WhatsApp con tu pedido listo para enviar
+          </p>
         </div>
       </div>
     </>
@@ -726,14 +693,24 @@ function Footer() {
       <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
         <MacaronSVG color={PINK_MED} size={isMobile ? 40 : 50} />
         <div style={{ fontFamily: "'Pacifico', cursive", fontSize: isMobile ? 24 : 28, color: WHITE, margin: "8px 0" }}>Macarena</div>
-        <p style={{ color: PINK_LIGHT, opacity: 0.6, fontSize: 13, maxWidth: 400, margin: "0 auto 20px", lineHeight: 1.6 }}>Macarons artesanales hechos con amor. Pedidos por Instagram o WhatsApp.</p>
+        <p style={{ color: PINK_LIGHT, opacity: 0.6, fontSize: 13, maxWidth: 400, margin: "0 auto 20px", lineHeight: 1.6 }}>
+          Macarons artesanales hechos con amor. Pedidos por Instagram o WhatsApp.
+        </p>
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 24 }}>
-          <a href="https://instagram.com/macarena_macarrones" target="_blank" rel="noopener" style={{ color: PINK_MED, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>📸 @macarena_macarrones</a>
+          <a href="https://instagram.com/macarena_macarrones" target="_blank" rel="noopener" style={{
+            color: PINK_MED, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 6,
+          }}>
+            {"\u{1F4F8}"} @macarena_macarrones
+          </a>
         </div>
         <div style={{ display: "flex", justifyContent: "center", gap: isMobile ? 10 : 20, marginBottom: 20, flexWrap: "wrap" }}>
-          {["Efectivo", "Tarjeta", "Transferencia"].map(p => (<span key={p} style={{ color: PINK_LIGHT, opacity: 0.5, fontSize: 12, padding: "4px 12px", border: "1px solid rgba(212,142,196,0.2)", borderRadius: 12 }}>{p}</span>))}
+          {["Efectivo", "Tarjeta", "Transferencia"].map(p => (
+            <span key={p} style={{ color: PINK_LIGHT, opacity: 0.5, fontSize: 12, padding: "4px 12px", border: `1px solid ${PINK_MED}33`, borderRadius: 12 }}>{p}</span>
+          ))}
         </div>
-        <div style={{ borderTop: "1px solid rgba(212,142,196,0.13)", paddingTop: 18, color: PINK_LIGHT, opacity: 0.3, fontSize: 12 }}>© 2026 Macarena. Todos los derechos reservados.</div>
+        <div style={{ borderTop: `1px solid ${PINK_MED}22`, paddingTop: 18, color: PINK_LIGHT, opacity: 0.3, fontSize: 12 }}>
+          &copy; 2026 Macarena. Todos los derechos reservados.
+        </div>
       </div>
     </footer>
   );
@@ -742,7 +719,19 @@ function Footer() {
 function Toast({ message, visible }) {
   const w = useWindowSize();
   const isMobile = w < 768;
-  return (<div style={{ position: "fixed", bottom: 30, left: "50%", transform: "translateX(-50%) translateY(" + (visible ? 0 : 20) + "px)", background: "linear-gradient(135deg, " + PINK_DARK + ", " + PINK_MED + ")", color: WHITE, padding: isMobile ? "12px 20px" : "14px 30px", borderRadius: 30, fontWeight: 600, fontSize: isMobile ? 13 : 14, opacity: visible ? 1 : 0, transition: "all 0.3s ease", zIndex: 300, maxWidth: "90%", textAlign: "center" }}>{message}</div>);
+  return (
+    <div style={{
+      position: "fixed", bottom: 30, left: "50%", transform: `translateX(-50%) translateY(${visible ? 0 : 20}px)`,
+      background: `linear-gradient(135deg, ${PINK_DARK}, ${PINK_MED})`, color: WHITE,
+      padding: isMobile ? "12px 20px" : "14px 30px", borderRadius: 30,
+      fontWeight: 600, fontSize: isMobile ? 13 : 14,
+      opacity: visible ? 1 : 0, transition: "all 0.3s ease", zIndex: 300,
+      boxShadow: `0 8px 24px ${PINK_DARK}44`,
+      maxWidth: "90%", textAlign: "center",
+    }}>
+      {message}
+    </div>
+  );
 }
 
 function MacarenaTienda() {
@@ -750,13 +739,46 @@ function MacarenaTienda() {
   const [customBoxes, setCustomBoxes] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [toast, setToast] = useState({ message: "", visible: false });
-  const showToast = (msg) => { setToast({ message: msg, visible: true }); setTimeout(() => setToast(t => ({ ...t, visible: false })), 2500); };
-  const addToCart = (macaron) => { setCart(prev => { const idx = prev.findIndex(i => i.id === macaron.id); if (idx >= 0) { const next = [...prev]; next[idx] = { ...next[idx], qty: next[idx].qty + 1 }; return next; } return [...prev, { ...macaron, qty: 1 }]; }); showToast(macaron.name + " añadido al carrito ✨"); };
-  const addBox = (box) => { setCustomBoxes(prev => [...prev, box]); showToast("¡Caja de " + box.boxSize + " lista! 📦"); };
+
+  const showToast = (msg) => {
+    setToast({ message: msg, visible: true });
+    setTimeout(() => setToast(t => ({ ...t, visible: false })), 2500);
+  };
+
+  const addToCart = (macaron) => {
+    setCart(prev => {
+      const idx = prev.findIndex(i => i.id === macaron.id);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = { ...next[idx], qty: next[idx].qty + 1 };
+        return next;
+      }
+      return [...prev, { ...macaron, qty: 1 }];
+    });
+    showToast(`${macaron.name} a\u00f1adido al carrito \u2728`);
+  };
+
+  const addBox = (box) => {
+    setCustomBoxes(prev => [...prev, box]);
+    showToast(`\u00a1Caja de ${box.boxSize} lista! \u{1F4E6}`);
+  };
+
   const totalItems = cart.reduce((s, i) => s + i.qty, 0) + customBoxes.length;
+
   return (
     <div style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", minHeight: "100vh", background: WHITE }}>
-      <style>{"\n@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');\n* { margin: 0; padding: 0; box-sizing: border-box; }\nhtml { scroll-behavior: smooth; }\nbody { background: " + WHITE + "; }\n@keyframes float0 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }\n@keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }\n@keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }\n::-webkit-scrollbar { width: 6px; }\n::-webkit-scrollbar-track { background: " + PINK_LIGHT + "; }\n::-webkit-scrollbar-thumb { background: " + PINK_MED + "; border-radius: 3px; }\n"}</style>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: ${WHITE}; }
+        @keyframes float0 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+        @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: ${PINK_LIGHT}; }
+        ::-webkit-scrollbar-thumb { background: ${PINK_MED}; border-radius: 3px; }
+      `}</style>
       <Navbar cartCount={totalItems} onCartClick={() => setCartOpen(true)} />
       <Hero />
       <Catalog onAdd={addToCart} />
@@ -764,13 +786,22 @@ function MacarenaTienda() {
       <Testimonials />
       <PaymentInfo />
       <Footer />
-      <CartDrawer cart={cart} customBoxes={customBoxes} isOpen={cartOpen} onClose={() => setCartOpen(false)} onRemove={(i) => setCart(c => c.filter((_, idx) => idx !== i))} onRemoveBox={(i) => setCustomBoxes(c => c.filter((_, idx) => idx !== i))} />
+      <CartDrawer
+        cart={cart} customBoxes={customBoxes}
+        isOpen={cartOpen} onClose={() => setCartOpen(false)}
+        onRemove={(i) => setCart(c => c.filter((_, idx) => idx !== i))}
+        onRemoveBox={(i) => setCustomBoxes(c => c.filter((_, idx) => idx !== i))}
+      />
       <Toast {...toast} />
     </div>
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<React.StrictMode><MacarenaTienda /></React.StrictMode>);
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <MacarenaTienda />
+  </React.StrictMode>
+);
     </script>
 </body>
 </html>

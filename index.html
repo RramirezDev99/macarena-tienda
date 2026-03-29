@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Macarena - Macarons Artesanales</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#B4589E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Macarena">
+    <link rel="apple-touch-icon" href="/icon-192.png">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -45,13 +51,13 @@ function useWindowSize() {
 }
 
 const macarons = [
-  { id: 1, name: "Chocolate", color: "#8B5E3C", filling: "Ganache de chocolate", price: 25, emoji: "\u{1F36B}", desc: "Intenso chocolate belga con ganache cremosa que se derrite en tu boca." },
-  { id: 2, name: "Cajeta y Nuez", color: "#E8B87A", filling: "Cajeta artesanal con nuez", price: 28, emoji: "\u{1F95C}", desc: "Dulce cajeta artesanal con trozos crujientes de nuez de castilla." },
-  { id: 3, name: "Fresa", color: "#FF7EB3", filling: "Crema de fresa natural", price: 25, emoji: "\u{1F353}", desc: "Fresa natural con crema suave y un toque de dulzura irresistible." },
-  { id: 4, name: "Chocomenta", color: "#7EDCB5", filling: "Ganache de menta con chocolate", price: 28, emoji: "\u{1F33F}", desc: "La frescura de la menta con la riqueza del chocolate oscuro." },
-  { id: 5, name: "Oreo", color: "#87CEEB", filling: "Crema de galleta Oreo", price: 28, emoji: "\u{1F5A4}", desc: "Crema de galleta Oreo con trozos crujientes en cada bocado." },
-  { id: 6, name: "Pi\u00f1a y Coco", color: "#FFF176", filling: "Crema de pi\u00f1a colada", price: 28, emoji: "\u{1F34D}", desc: "Tropical mezcla de pi\u00f1a dulce con coco rallado artesanal." },
-  { id: 7, name: "S'mors", color: "#F0E6D3", filling: "Marshmallow tostado con chocolate", price: 30, emoji: "\u{1F525}", desc: "Marshmallow tostado, chocolate y galleta graham en un macaron." },
+  { id: 1, name: "Chocolate", color: "#8B5E3C", filling: "Ganache de chocolate", price: 35, emoji: "\u{1F36B}", desc: "Intenso chocolate belga con ganache cremosa que se derrite en tu boca." },
+  { id: 2, name: "Cajeta y Nuez", color: "#E8B87A", filling: "Cajeta artesanal con nuez", price: 35, emoji: "\u{1F95C}", desc: "Dulce cajeta artesanal con trozos crujientes de nuez de castilla." },
+  { id: 3, name: "Fresa", color: "#FF7EB3", filling: "Crema de fresa natural", price: 35, emoji: "\u{1F353}", desc: "Fresa natural con crema suave y un toque de dulzura irresistible." },
+  { id: 4, name: "Chocomenta", color: "#7EDCB5", filling: "Ganache de menta con chocolate", price: 35, emoji: "\u{1F33F}", desc: "La frescura de la menta con la riqueza del chocolate oscuro." },
+  { id: 5, name: "Oreo", color: "#87CEEB", filling: "Crema de galleta Oreo", price: 35, emoji: "\u{1F5A4}", desc: "Crema de galleta Oreo con trozos crujientes en cada bocado." },
+  { id: 6, name: "Pi\u00f1a y Coco", color: "#FFF176", filling: "Crema de pi\u00f1a colada", price: 35, emoji: "\u{1F34D}", desc: "Tropical mezcla de pi\u00f1a dulce con coco rallado artesanal." },
+  { id: 7, name: "S'mors", color: "#F0E6D3", filling: "Marshmallow tostado con chocolate", price: 35, emoji: "\u{1F525}", desc: "Marshmallow tostado, chocolate y galleta graham en un macaron." },
 ];
 
 const boxes = [
@@ -832,6 +838,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <MacarenaTienda />
   </React.StrictMode>
 );
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+      }
     </script>
 </body>
 </html>

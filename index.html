@@ -73,6 +73,23 @@ function MacaronSVG({ color, size = 64, className = "" }) {
   );
 }
 
+function FloatingMacarons({ seed = 0, opacity = 0.08, size, isMobile }) {
+  const s = size || (isMobile ? 40 : 70);
+  return macarons.map((m, i) => (
+    <div key={i} style={{
+      position: "absolute",
+      left: `${(5 + seed + (i * 17) % 90) % 95}%`,
+      top: `${(8 + seed + (i * 23) % 80) % 90}%`,
+      opacity: opacity,
+      transform: `rotate(${i * 30 + seed * 10 - 45}deg) scale(${0.6 + (i % 3) * 0.3})`,
+      animation: `float${i % 3} ${5 + (i % 3)}s ease-in-out ${i * 0.4 + seed * 0.2}s infinite`,
+      pointerEvents: "none",
+    }}>
+      <MacaronSVG color={m.color} size={s} />
+    </div>
+  ));
+}
+
 function StarRating({ rating }) {
   return (
     <div style={{ display: "flex", gap: 2 }}>
@@ -288,8 +305,9 @@ function Catalog({ onAdd }) {
   const w = useWindowSize();
   const isMobile = w < 768;
   return (
-    <section id="sabores" style={{ background: WHITE, padding: isMobile ? "60px 16px" : "90px 24px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+    <section id="sabores" style={{ background: `linear-gradient(160deg, ${WHITE} 0%, ${PINK_BG} 50%, ${PINK_LIGHT} 100%)`, padding: isMobile ? "60px 16px" : "90px 24px", position: "relative", overflow: "hidden" }}>
+      <FloatingMacarons seed={3} opacity={0.06} isMobile={isMobile} />
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
         <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
           <span style={{ color: PINK_DARK, fontSize: 13, letterSpacing: 4, textTransform: "uppercase", fontWeight: 600 }}>Nuestros Sabores</span>
           <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0", fontWeight: 400 }}>
@@ -479,8 +497,9 @@ function Testimonials() {
     { name: "Gilda Sanchez", text: "Estuvieron riqu\u00edsimos. Por favor, te encargo otras 2 cajitas de 6, para el pr\u00f3ximo s\u00e1bado. Surtidos. Nos gustaron todos.", rating: 5 },
   ];
   return (
-    <section id="nosotros" style={{ background: WHITE, padding: isMobile ? "60px 16px" : "90px 24px" }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+    <section id="nosotros" style={{ background: `linear-gradient(160deg, ${PINK_LIGHT} 0%, ${PINK_BG} 50%, ${WHITE} 100%)`, padding: isMobile ? "60px 16px" : "90px 24px", position: "relative", overflow: "hidden" }}>
+      <FloatingMacarons seed={7} opacity={0.06} isMobile={isMobile} />
+      <div style={{ maxWidth: 1000, margin: "0 auto", position: "relative", zIndex: 2 }}>
         <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
           <span style={{ color: PINK_DARK, fontSize: 13, letterSpacing: 4, textTransform: "uppercase", fontWeight: 600 }}>Testimonios</span>
           <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0", fontWeight: 400 }}>

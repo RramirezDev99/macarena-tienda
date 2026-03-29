@@ -55,9 +55,9 @@ const macarons = [
 ];
 
 const boxes = [
-  { qty: 6, label: "Caja de 6", price: 150 },
-  { qty: 12, label: "Caja de 12", price: 280 },
-  { qty: 24, label: "Caja de 24", price: 530 },
+  { qty: 6, label: "Caja de 6", price: 200 },
+  { qty: 12, label: "Caja de 12", price: 400 },
+  { qty: 24, label: "Caja de 24", price: 800 },
 ];
 
 function MacaronSVG({ color, size = 64, className = "" }) {
@@ -228,7 +228,7 @@ function Hero() {
         </div>
         <div style={{ marginTop: 28, display: "flex", justifyContent: "center", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 20 }}>{"\u{1F4F8}"}</span>
-          <a href="https://www.instagram.com/macarena.macarrones?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" style={{
+          <a href="https://www.instagram.com/macarena.macarrones" target="_blank" rel="noopener" style={{
             color: PINK_DARK, textDecoration: "none", fontSize: 15, fontWeight: 500,
           }}>@macarena.macarrones</a>
         </div>
@@ -473,10 +473,10 @@ function Testimonials() {
   const w = useWindowSize();
   const isMobile = w < 768;
   const reviews = [
-    { name: "Sof\u00eda M.", text: "\u00a1Los macarons de Chocomenta son incre\u00edbles! Ped\u00ed una caja de 24 y desaparecieron en un d\u00eda.", rating: 5 },
-    { name: "Andrea R.", text: "Ped\u00ed para mi cumplea\u00f1os y todos quedaron encantados. Los de Cajeta y Nuez son los mejores.", rating: 5 },
-    { name: "Luis G.", text: "Excelente presentaci\u00f3n y sabor. Los S'mors son adictivos. Definitivamente repetir\u00e9.", rating: 5 },
-    { name: "Diana P.", text: "Calidad premium a muy buen precio. Los de Fresa son mis favoritos.", rating: 5 },
+    { name: "Daniela Sanches", text: "Ayy amigaaaa!! Buen\u00edsimos como siempre!! Los amo jajaja Mil gracias a ti!! De verdad te quedan soso", rating: 5 },
+    { name: "Esther Pulido", text: "Muy buenos por cierto 10000/10", rating: 5 },
+    { name: "Carolina Hernandez", text: "Los mejores macarrones de Le\u00f3n. Me encantan adem\u00e1s amo los sabores que tienen", rating: 5 },
+    { name: "Gilda Sanchez", text: "Estuvieron riqu\u00edsimos. Por favor, te encargo otras 2 cajitas de 6, para el pr\u00f3ximo s\u00e1bado. Surtidos. Nos gustaron todos.", rating: 5 },
   ];
   return (
     <section id="nosotros" style={{ background: WHITE, padding: isMobile ? "60px 16px" : "90px 24px" }}>

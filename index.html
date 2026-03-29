@@ -73,21 +73,30 @@ function MacaronSVG({ color, size = 64, className = "" }) {
   );
 }
 
-function FloatingMacarons({ seed = 0, opacity = 0.08, size, isMobile }) {
-  const s = size || (isMobile ? 40 : 70);
-  return macarons.map((m, i) => (
-    <div key={i} style={{
-      position: "absolute",
-      left: `${(5 + seed + (i * 17) % 90) % 95}%`,
-      top: `${(8 + seed + (i * 23) % 80) % 90}%`,
-      opacity: opacity,
-      transform: `rotate(${i * 30 + seed * 10 - 45}deg) scale(${0.6 + (i % 3) * 0.3})`,
-      animation: `float${i % 3} ${5 + (i % 3)}s ease-in-out ${i * 0.4 + seed * 0.2}s infinite`,
-      pointerEvents: "none",
-    }}>
-      <MacaronSVG color={m.color} size={s} />
-    </div>
-  ));
+function FloatingMacarons({ seed = 0, opacity = 0.1, size, isMobile, count = 20 }) {
+  const s = size || (isMobile ? 35 : 60);
+  const items = [];
+  for (let i = 0; i < count; i++) {
+    const m = macarons[i % macarons.length];
+    const x = ((seed * 13 + i * 31 + 7) * 17) % 95;
+    const y = ((seed * 7 + i * 43 + 11) * 13) % 90;
+    const rot = ((seed * 5 + i * 37) % 360) - 180;
+    const sc = 0.5 + ((i * 3 + seed) % 5) * 0.15;
+    items.push(
+      <div key={i} style={{
+        position: "absolute",
+        left: `${2 + x}%`,
+        top: `${3 + y}%`,
+        opacity: opacity * (0.6 + ((i * 7 + seed) % 5) * 0.1),
+        transform: `rotate(${rot}deg) scale(${sc})`,
+        animation: `float${i % 3} ${4 + (i % 4)}s ease-in-out ${(i * 0.3 + seed * 0.1) % 4}s infinite`,
+        pointerEvents: "none",
+      }}>
+        <MacaronSVG color={m.color} size={s} />
+      </div>
+    );
+  }
+  return items;
 }
 
 function StarRating({ rating }) {
@@ -186,7 +195,7 @@ function Hero() {
   return (
     <section style={{
       minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      background: `linear-gradient(160deg, ${PINK_LIGHT} 0%, ${PINK_BG} 40%, ${WHITE} 100%)`,
+      background: `linear-gradient(160deg, ${PINK_LIGHT} 0%, ${PINK_BG} 60%, ${PINK_BG} 100%)`,
       position: "relative", overflow: "hidden", padding: isMobile ? "80px 16px 40px" : "0 24px",
     }}>
       {macarons.map((m, i) => (
@@ -305,7 +314,7 @@ function Catalog({ onAdd }) {
   const w = useWindowSize();
   const isMobile = w < 768;
   return (
-    <section id="sabores" style={{ background: `linear-gradient(160deg, ${WHITE} 0%, ${PINK_BG} 50%, ${PINK_LIGHT} 100%)`, padding: isMobile ? "60px 16px" : "90px 24px", position: "relative", overflow: "hidden" }}>
+    <section id="sabores" style={{ background: PINK_BG, padding: isMobile ? "60px 16px" : "90px 24px", position: "relative", overflow: "hidden" }}>
       <FloatingMacarons seed={3} opacity={0.06} isMobile={isMobile} />
       <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
         <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
@@ -352,8 +361,9 @@ function BoxBuilder({ onAddBox }) {
   };
 
   return (
-    <section id="arma-tu-caja" style={{ background: PINK_LIGHT, padding: isMobile ? "60px 16px" : "90px 24px" }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+    <section id="arma-tu-caja" style={{ background: PINK_BG, padding: isMobile ? "60px 16px" : "90px 24px", position: "relative", overflow: "hidden" }}>
+      <FloatingMacarons seed={5} opacity={0.07} isMobile={isMobile} count={16} />
+      <div style={{ maxWidth: 1000, margin: "0 auto", position: "relative", zIndex: 2 }}>
         <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
           <span style={{ color: PINK_DARK, fontSize: 13, letterSpacing: 4, textTransform: "uppercase", fontWeight: 600 }}>Personaliza</span>
           <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 32 : 42, margin: "10px 0 0", fontWeight: 400 }}>
@@ -497,7 +507,7 @@ function Testimonials() {
     { name: "Gilda Sanchez", text: "Estuvieron riqu\u00edsimos. Por favor, te encargo otras 2 cajitas de 6, para el pr\u00f3ximo s\u00e1bado. Surtidos. Nos gustaron todos.", rating: 5 },
   ];
   return (
-    <section id="nosotros" style={{ background: `linear-gradient(160deg, ${PINK_LIGHT} 0%, ${PINK_BG} 50%, ${WHITE} 100%)`, padding: isMobile ? "60px 16px" : "90px 24px", position: "relative", overflow: "hidden" }}>
+    <section id="nosotros" style={{ background: PINK_BG, padding: isMobile ? "60px 16px" : "90px 24px", position: "relative", overflow: "hidden" }}>
       <FloatingMacarons seed={7} opacity={0.06} isMobile={isMobile} />
       <div style={{ maxWidth: 1000, margin: "0 auto", position: "relative", zIndex: 2 }}>
         <div style={{ textAlign: "center", marginBottom: isMobile ? 30 : 50 }}>
@@ -530,8 +540,9 @@ function PaymentInfo() {
   const w = useWindowSize();
   const isMobile = w < 768;
   return (
-    <section style={{ background: PINK_LIGHT, padding: isMobile ? "50px 16px" : "70px 24px" }}>
-      <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
+    <section style={{ background: PINK_BG, padding: isMobile ? "50px 16px" : "70px 24px", position: "relative", overflow: "hidden" }}>
+      <FloatingMacarons seed={11} opacity={0.06} isMobile={isMobile} count={12} />
+      <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 2 }}>
         <h2 style={{ fontFamily: "'Pacifico', cursive", color: NAVY, fontSize: isMobile ? 26 : 32, margin: "0 0 8px", fontWeight: 400 }}>
           M&eacute;todos de Pago
         </h2>
@@ -785,12 +796,12 @@ function MacarenaTienda() {
   const totalItems = cart.reduce((s, i) => s + i.qty, 0) + customBoxes.length;
 
   return (
-    <div style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", minHeight: "100vh", background: WHITE }}>
+    <div style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", minHeight: "100vh", background: PINK_BG }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { background: ${WHITE}; }
+        body { background: ${PINK_BG}; }
         @keyframes float0 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
         @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
         @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
